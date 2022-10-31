@@ -5,9 +5,9 @@ public class FakeTarget : Target
 {
     public int Respawn;
 
-    public override void TakeDamage(float amount)
+    public override void TakeDamage()
     {
         SceneManager.LoadScene(Respawn);
-        Debug.Log("asdf");
+        Debug.Log("you are dead");
     }
 }

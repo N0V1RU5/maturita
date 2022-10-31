@@ -14,7 +14,6 @@ public class FlashlightAdvanced : MonoBehaviour
     public float batteries;
     public float FDuration;
     public float range = 100f;
-    public float damage = 1f;
 
     public Camera fpsCam;
     public Transform target;
@@ -95,15 +94,46 @@ public class FlashlightAdvanced : MonoBehaviour
 
     void Shoot()
     {
+        var nearestEnemy = GameObject.FindGameObjectWithTag("Enemy");
+        var nearestFakeEnemy = GameObject.FindGameObjectWithTag("FakeEnemy");
+        var dist = Vector3.Distance(transform.position, nearestEnemy.transform.position);
+        var distFE = Vector3.Distance(transform.position, nearestFakeEnemy.transform.position);
+        var limit = 100f;
+        if (dist <= limit || distFE <= limit)
+        {
+            //enemy is close
+            var aimPointDistance = limit;
+            var aimPoint = transform.position + transform.forward * aimPointDistance;
+            var angle = Vector3.Angle(nearestEnemy.transform.position, aimPoint);
+            var angleFE = Vector3.Angle(nearestFakeEnemy.transform.position, aimPoint);
+            Target target = nearestEnemy.transform.GetComponent<Target>();
+            Target fakeTarget = nearestFakeEnemy.transform.GetComponent<FakeTarget>();
+            if (angle <= 25f || angleFE <= 25f)
+            {
+                //enemy is in angle of the flashlight
+                if (target != null)
+                {
+                    //enemy takes damage
+                    target.TakeDamage();
+                    Debug.Log("target");
+
+                } else if ( fakeTarget != null)
+                {
+                    fakeTarget.TakeDamage();
+                    Debug.Log("fake target");
+                }
+            }
+        }
+    }
+        /*
         Vector3 targetDir = target.position - transform.position;
         float angle = Vector3.Angle(targetDir, transform.forward);
 
         if (angle < 30f)
         {
             Debug.Log("Close");
-        }
-        
-    }
+        }*/
+    
 
     /*
     RaycastHit hit;
@@ -120,31 +150,21 @@ public class FlashlightAdvanced : MonoBehaviour
         }
     }
     */
-    /*
-    Vector3 reletiveNormalizedPos = (fpsCam.transform.position - transform.position).normalized;
-    float dot = Vector3.Dot(reletiveNormalizedPos, );
-
-    //angle difference between looking direction and direction to item (radians)
-    float angle = Mathf.Acos(dot);
-
-    if (angle < MAX_ANGLE)
-    {
-        //looking at target
-    }
-    */
-
+    
     /*
     var nearestEnemy = GameObject.Find("Capsule");
     var dist = Vector3.Distance(transform.position, nearestEnemy.transform.position);
 
-    var limit = 1;
+    var limit = 5;
 
     if (dist <= limit)
     {
         //enemy is close
-        var aimPointDistance = 1;
+        var aimPointDistance = limit;
         var aimPoint = transform.position + transform.forward * aimPointDistance;
+        
 
+        if (aimPoint < angle)
     }
     */
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class LightHit : MonoBehaviour
 {
     public float range = 100f;
-    public float damage = 1f;
 
     public Camera fpsCam;
 
@@ -28,7 +27,7 @@ public class LightHit : MonoBehaviour
 
             if (target != null)
             {
-                target.TakeDamage(damage);
+                target.TakeDamage();
             }
         }
     }

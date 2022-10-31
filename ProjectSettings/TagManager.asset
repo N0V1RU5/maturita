@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Reach
   - flashlight
+  - Enemy
+  - FakeEnemy
   layers:
   - Default
   - TransparentFX

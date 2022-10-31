@@ -1,18 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Target : MonoBehaviour
 {
-    public float health = 1f;
-
-    public virtual void TakeDamage(float amount)
-    {
-        health -= amount;
-        if (health <= 0f)
-        {
-            Die();
-        }
-    }
-    void Die()
+    public virtual void TakeDamage()
     {
         Destroy(gameObject);
     }
