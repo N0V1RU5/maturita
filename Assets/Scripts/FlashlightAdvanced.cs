@@ -99,16 +99,15 @@ public class FlashlightAdvanced : MonoBehaviour
         var dist = Vector3.Distance(transform.position, nearestEnemy.transform.position);
         var distFE = Vector3.Distance(transform.position, nearestFakeEnemy.transform.position);
         var limit = 100f;
-        if (dist <= limit || distFE <= limit)
+        if (dist <= limit )
         {
             //enemy is close
             var aimPointDistance = limit;
             var aimPoint = transform.position + transform.forward * aimPointDistance;
             var angle = Vector3.Angle(nearestEnemy.transform.position, aimPoint);
-            var angleFE = Vector3.Angle(nearestFakeEnemy.transform.position, aimPoint);
+
             Target target = nearestEnemy.transform.GetComponent<Target>();
-            Target fakeTarget = nearestFakeEnemy.transform.GetComponent<FakeTarget>();
-            if (angle <= 25f || angleFE <= 25f)
+            if (angle <= 25f)
             {
                 //enemy is in angle of the flashlight
                 if (target != null)
@@ -116,11 +115,26 @@ public class FlashlightAdvanced : MonoBehaviour
                     //enemy takes damage
                     target.TakeDamage();
                     Debug.Log("target");
+                }
+            }
+        }
 
-                } else if ( fakeTarget != null)
+        if (dist <= limit)
+        {
+            var aimPointDistance = limit;
+            var aimPoint = transform.position + transform.forward * aimPointDistance;
+            var angleFE = Vector3.Angle(nearestFakeEnemy.transform.position, aimPoint);
+
+            Target fakeTarget = nearestFakeEnemy.transform.GetComponent<FakeTarget>();
+
+            if (angleFE <= 25f)
+            {
+                //enemy is in angle of the flashlight
+                if (fakeTarget != null)
                 {
+                    //enemy takes damage
                     fakeTarget.TakeDamage();
-                    Debug.Log("fake target");
+                    Debug.Log("Fake Target");
                 }
             }
         }
