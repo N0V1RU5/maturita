@@ -8,6 +8,9 @@ TagManager:
   - flashlight
   - Enemy
   - FakeEnemy
+  - Battery
+  - Keycard
+  - Exit
   layers:
   - Default
   - TransparentFX

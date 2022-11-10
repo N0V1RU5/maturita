@@ -1,52 +1,84 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BatteryPickUp : MonoBehaviour
 {
-    private bool inReach;
+    private float raycastLength = 5f;
+    public int Respawn;
 
-    public GameObject pickUpText;
     private GameObject flashlight;
 
     //public AudioSource pickUpSound;
 
     void Start()
     {
-        inReach = false;
-        pickUpText.SetActive(false);
         flashlight = GameObject.FindGameObjectWithTag("flashlight");
-        
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Reach")
-        {
-            inReach = true;
-            pickUpText.SetActive(true);
-        }
-
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Reach")
-        {
-            inReach = false;
-            pickUpText.SetActive(false);
-        }
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("interact") && inReach)
+        BatteryPickup();
+        CardPickup();
+        ExitCheck();
+    }
+
+    void BatteryPickup()
+    {
+        if (Input.GetButtonDown("interact"))
         {
-            flashlight.GetComponent<FlashlightAdvanced>().batteries += 1;
-            //pickUpSound.Play();
-            inReach = false;
-            pickUpText.SetActive(false);
-            Destroy(gameObject);
+            Vector3 pos = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.0f);
+            Ray ray = Camera.main.ScreenPointToRay(pos);
+            if (Physics.Raycast(ray, out RaycastHit hit, raycastLength))
+            {
+                if (hit.collider.CompareTag("Battery"))
+                {
+                    //pickUpSound.Play()
+                    flashlight.GetComponent<FlashlightAdvanced>().batteries += 1;
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+        }
+    }
+
+    void CardPickup()
+    {
+        if (Input.GetButtonDown("interact"))
+        {
+            Vector3 pos = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.0f);
+            Ray ray = Camera.main.ScreenPointToRay(pos);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, raycastLength))
+            {
+                if (hit.collider.CompareTag("Keycard"))
+                {
+                    //pickUpSound.Play()
+                    flashlight.GetComponent<FlashlightAdvanced>().keycards += 1;
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+        }
+    }
+
+    void ExitCheck()
+    {
+        if (Input.GetButtonDown("interact"))
+        {
+            Vector3 pos = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.0f);
+            Ray ray = Camera.main.ScreenPointToRay(pos);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, raycastLength))
+            {
+                if (hit.collider.CompareTag("Exit") && flashlight.GetComponent<FlashlightAdvanced>().keycards >= 6)
+                {
+                    Debug.Log("Winner Winner, Chicken Dinner!!!");
+                    SceneManager.LoadScene(Respawn);
+                } else if (hit.collider.CompareTag("Exit") && flashlight.GetComponent<FlashlightAdvanced>().keycards < 6)
+                {
+                    Debug.Log("no baterky?");
+                }
+            }
         }
     }
 }
