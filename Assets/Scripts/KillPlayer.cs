@@ -5,13 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class KillPlayer : MonoBehaviour
 {
-    public int Respawn;
-
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(Respawn);
+            SceneManager.LoadScene("DeathScreen");
+            Cursor.lockState = CursorLockMode.Confined;
         }
     }
 }

@@ -134,6 +134,7 @@ public class EnemyAI : MonoBehaviour
                     Stop();
                     m_WaitTime -= Time.deltaTime;
                     navMeshAgent.transform.Rotate(0f, 67.5f * Time.deltaTime, 0f);
+                    Move(speedWalk);
                 }
             }
         }
@@ -146,8 +147,12 @@ public class EnemyAI : MonoBehaviour
 
     public void NextPoint()
     {
-        m_CurrentWaypointIndex = (m_CurrentWaypointIndex + 1) % waypoints.Length;
-        navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+        if (waypoints.Length > 1)
+        {
+            m_CurrentWaypointIndex = Random.Range(0, waypoints.Length);
+            navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+            print("lets go další checkpoint je: " + waypoints[m_CurrentWaypointIndex].position);
+        }
     }
 
     void Stop()

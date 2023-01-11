@@ -13,7 +13,7 @@ public class StealBattery : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && flashlight.GetComponent<FlashlightAdvanced>().batteries >= 1)
+        if (other.CompareTag("Player"))
         {
             flashlight.GetComponent<FlashlightAdvanced>().batteries -= 1;
             Debug.Log("YOINK");

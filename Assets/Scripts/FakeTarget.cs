@@ -7,7 +7,6 @@ public class FakeTarget : Target
 
     public override void TakeDamage()
     {
-        SceneManager.LoadScene(Respawn);
-        Debug.Log("you are dead");
+        SceneManager.LoadScene("DeathScreen");
     }
 }

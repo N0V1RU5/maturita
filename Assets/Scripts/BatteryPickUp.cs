@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class BatteryPickUp : MonoBehaviour
 {
     private float raycastLength = 5f;
-    public int Respawn;
 
     private GameObject flashlight;
 
@@ -19,9 +18,12 @@ public class BatteryPickUp : MonoBehaviour
 
     void Update()
     {
-        BatteryPickup();
-        CardPickup();
-        ExitCheck();
+        if (!PauseMenu.isPaused)
+        {
+            BatteryPickup();
+            CardPickup();
+            ExitCheck();
+        }
     }
 
     void BatteryPickup()
@@ -72,9 +74,9 @@ public class BatteryPickUp : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Exit") && flashlight.GetComponent<FlashlightAdvanced>().keycards >= 6)
                 {
-                    Debug.Log("Winner Winner, Chicken Dinner!!!");
-                    SceneManager.LoadScene(Respawn);
-                } else if (hit.collider.CompareTag("Exit") && flashlight.GetComponent<FlashlightAdvanced>().keycards < 6)
+                    SceneManager.LoadScene("WinScreen");
+                }
+                else if (hit.collider.CompareTag("Exit") && flashlight.GetComponent<FlashlightAdvanced>().keycards < 6)
                 {
                     Debug.Log("no baterky?");
                 }
