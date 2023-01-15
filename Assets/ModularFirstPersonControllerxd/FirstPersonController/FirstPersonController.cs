@@ -90,6 +90,7 @@ public class FirstPersonController : MonoBehaviour
     private bool isSprintCooldown = false;
     private float sprintCooldownReset;
     private bool isHoldingSprintKey = false;
+    private float staminaDrainTreshold = 0.1f;
 
     #endregion
 
@@ -98,7 +99,9 @@ public class FirstPersonController : MonoBehaviour
     public bool enableJump = true;
     public KeyCode jumpKey = KeyCode.Space;
     public float jumpPower = 5f;
-    public float increasedGravityScale = 2f;
+    public float gravityScale = 2f;
+    private float airResistance = 0.05f;
+
 
     // Internal Variables
     private bool isGrounded = false;
@@ -284,7 +287,7 @@ public class FirstPersonController : MonoBehaviour
                 isHoldingSprintKey = Input.GetKey(sprintKey);
 
                 // If the player is holding down the sprint key, start sprinting if they have enough stamina
-                if (isHoldingSprintKey)
+                if (isHoldingSprintKey && rb.velocity.magnitude > staminaDrainTreshold)
                 {
                     if (!isSprinting && !isSprintCooldown && sprintRemaining > 0)
                     {
@@ -351,11 +354,6 @@ public class FirstPersonController : MonoBehaviour
                 Jump();
             }
 
-            if (!isGrounded)
-            {
-                rb.AddForce(Physics.gravity * increasedGravityScale, ForceMode.Acceleration);
-            }
-
             #endregion
 
             #region Crouch
@@ -410,7 +408,7 @@ public class FirstPersonController : MonoBehaviour
                 isWalking = false;
             }
 
-            // All movement calculations shile sprint is active
+            // All movement calculations while sprint is active
             if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f && !isSprintCooldown)
             {
                 targetVelocity = transform.TransformDirection(targetVelocity) * sprintSpeed;
@@ -478,10 +476,12 @@ public class FirstPersonController : MonoBehaviour
         {
             Debug.DrawRay(origin, direction * distance, Color.red);
             isGrounded = true;
+            playerCanMove = true;
         }
         else
         {
             isGrounded = false;
+            playerCanMove = false;
         }
     }
 
@@ -490,8 +490,12 @@ public class FirstPersonController : MonoBehaviour
         // Adds force to the player rigidbody to jump
         if (isGrounded)
         {
-            rb.AddForce(0f, jumpPower, 0f, ForceMode.Impulse);
-            isGrounded = false;
+            rb.velocity = new Vector3(0f, jumpPower, 0f);
+        }
+        else
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (gravityScale - 1) * Time.deltaTime;
+            rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, airResistance * Time.deltaTime);
         }
 
         // When crouched and using toggle system, will uncrouch for a jump

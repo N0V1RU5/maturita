@@ -23,10 +23,24 @@ public class PauseMenu : MonoBehaviour
             if (isPaused)
             {
                 ResumeGame();
+
+                AudioSource[] audios = FindObjectsOfType<AudioSource>();
+
+                foreach (AudioSource a in audios)
+                {
+                    a.Play();
+                }
             }
             else
             {
                 PauseGame();
+
+                AudioSource[] audios = FindObjectsOfType<AudioSource>();
+
+                foreach (AudioSource a in audios)
+                {
+                    a.Pause();
+                }
             }
         }
     }
