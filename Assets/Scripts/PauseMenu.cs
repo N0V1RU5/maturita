@@ -23,24 +23,10 @@ public class PauseMenu : MonoBehaviour
             if (isPaused)
             {
                 ResumeGame();
-
-                AudioSource[] audios = FindObjectsOfType<AudioSource>();
-
-                foreach (AudioSource a in audios)
-                {
-                    a.Play();
-                }
             }
             else
             {
                 PauseGame();
-
-                AudioSource[] audios = FindObjectsOfType<AudioSource>();
-
-                foreach (AudioSource a in audios)
-                {
-                    a.Pause();
-                }
             }
         }
     }
@@ -50,6 +36,13 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.Confined;
+
+        AudioSource[] audios = FindObjectsOfType<AudioSource>();
+        foreach (AudioSource a in audios)
+        {
+            a.Pause();
+        }
+
         isPaused = true;
     }
 
@@ -58,6 +51,13 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
+
+        AudioSource[] audios = FindObjectsOfType<AudioSource>();
+        foreach (AudioSource a in audios)
+        {
+            a.Play();
+        }
+
         isPaused = false;
     }
 

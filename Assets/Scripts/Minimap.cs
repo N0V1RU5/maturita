@@ -10,13 +10,20 @@ public class Minimap : MonoBehaviour
     public Transform map3dEnd;
     public GameObject minimap;
 
+    public bool isPauseMenuOpen = false;
+
     private Vector3 normalized, mapped;
 
     public KeyCode minimapKey = KeyCode.Tab;
+    public KeyCode pauseMenuKey = KeyCode.Escape;
 
     private void Update()
     {
-        if (Input.GetKey(minimapKey))
+        if (Input.GetKeyDown(pauseMenuKey)) // Check for pause menu key press
+        {
+            isPauseMenuOpen = !isPauseMenuOpen; // toggle pause menu state
+        }
+        if (!isPauseMenuOpen && Input.GetKey(minimapKey)) // Check for minimap key press only when pause menu is closed
         {
             minimap.SetActive(true);
         }

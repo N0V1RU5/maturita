@@ -156,7 +156,12 @@ public class FirstPersonController : MonoBehaviour
 
     void Start()
     {
-        if(lockCursor)
+        if (PlayerPrefs.HasKey("mouseSensitivity"))
+        {
+            mouseSensitivity = PlayerPrefs.GetFloat("mouseSensitivity");
+        }
+
+        if (lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
         }

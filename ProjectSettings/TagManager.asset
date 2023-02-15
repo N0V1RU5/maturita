@@ -11,6 +11,7 @@ TagManager:
   - Battery
   - Keycard
   - Exit
+  - ExitTut
   layers:
   - Default
   - TransparentFX

@@ -33,7 +33,7 @@ public class RandomSpawner : MonoBehaviour
 
             int gameObjectIndex = Random.Range(0, remainingGameObjects.Count);
             int locationIndex = Random.Range(0, freeLocations.Count);
-            Instantiate(gameObjects[gameObjectIndex], locations[locationIndex].position, Quaternion.identity);
+            Instantiate(gameObjects[gameObjectIndex], locations[locationIndex].position, locations[locationIndex].rotation);
             remainingGameObjects.RemoveAt(gameObjectIndex);
             freeLocations.RemoveAt(locationIndex);
         }

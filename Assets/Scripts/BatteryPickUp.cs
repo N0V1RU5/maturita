@@ -23,6 +23,7 @@ public class BatteryPickUp : MonoBehaviour
             BatteryPickup();
             CardPickup();
             ExitCheck();
+            ExitTutCheck();
         }
     }
 
@@ -76,9 +77,22 @@ public class BatteryPickUp : MonoBehaviour
                 {
                     SceneManager.LoadScene("WinScreen");
                 }
-                else if (hit.collider.CompareTag("Exit") && flashlight.GetComponent<FlashlightAdvanced>().keycards < 6)
+            }
+        }
+    }
+
+    void ExitTutCheck()
+    {
+        if (Input.GetButtonDown("interact"))
+        {
+            Vector3 pos = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.0f);
+            Ray ray = Camera.main.ScreenPointToRay(pos);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, raycastLength))
+            {
+                if (hit.collider.CompareTag("ExitTut") && flashlight.GetComponent<FlashlightAdvanced>().keycards >= 6)
                 {
-                    Debug.Log("no baterky?");
+                    SceneManager.LoadScene("MainMenu");
                 }
             }
         }

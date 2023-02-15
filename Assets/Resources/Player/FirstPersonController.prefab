@@ -165,6 +165,7 @@ MonoBehaviour:
   enableJump: 1
   jumpKey: 32
   jumpPower: 5
+  gravityScale: 2
   enableCrouch: 1
   holdToCrouch: 0
   crouchKey: 99
