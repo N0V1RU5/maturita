@@ -26,7 +26,7 @@ public class Target : MonoBehaviour
         gameObject.SetActive(false);   // Deactivate the enemy game object
 
         // Respawn the enemy at the furthest waypoint after a delay
-        Invoke("Respawn", 10.0f);
+        Invoke(nameof(Respawn), 10.0f);
     }
 
     private void Respawn()

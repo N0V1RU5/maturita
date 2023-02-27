@@ -9,6 +9,8 @@ public class PauseMenu : MonoBehaviour
     public static bool isPaused;
     public KeyCode pauseKey = KeyCode.Escape;
 
+    public Animator crossFade;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,8 +66,15 @@ public class PauseMenu : MonoBehaviour
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        crossFade.SetTrigger("Start");
+        StartCoroutine(GoToMainMenuDelay());
         isPaused = false;
+    }
+
+    private IEnumerator GoToMainMenuDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void QuitGame()

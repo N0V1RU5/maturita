@@ -140,11 +140,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void OnAnimatorMove()
-    {
-
-    }
-
     public void NextPoint()
     {
         if (waypoints.Length > 1)
@@ -165,11 +160,6 @@ public class EnemyAI : MonoBehaviour
     {
         navMeshAgent.isStopped = false;
         navMeshAgent.speed = speed;
-    }
-
-    void CaughtPlayer()
-    {
-        m_CaughtPlayer = true;
     }
 
     void LookingPlayer(Vector3 player)

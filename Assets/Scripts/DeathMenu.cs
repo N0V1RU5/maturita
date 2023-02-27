@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class DeathMenu : MonoBehaviour
 {
+    public Animator crossFade;
+
     public void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
@@ -12,11 +14,25 @@ public class DeathMenu : MonoBehaviour
 
     public void RestartGame()
     {
+        crossFade.SetTrigger("Start");
+        StartCoroutine(RestartGameDelay());
+    }
+
+    private IEnumerator RestartGameDelay()
+    {
+
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("Game");
     }
 
     public void MainMenu()
     {
+        crossFade.SetTrigger("Start");
+        StartCoroutine(MainMenuDelay());
+    }
+    private IEnumerator MainMenuDelay()
+    {
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("MainMenu");
     }
 
