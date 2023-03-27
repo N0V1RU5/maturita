@@ -320,7 +320,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MOUSE SENSITIVITY
+  m_text: "CITLIVOST MY\u0160I"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7174e3ca51adfd45a86ed3b4082090e, type: 2}
   m_sharedMaterial: {fileID: 8484387126775878783, guid: e7174e3ca51adfd45a86ed3b4082090e, type: 2}
@@ -1649,7 +1649,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BACK TO MENU
+  m_text: "ZP\u011AT DO MENU"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7174e3ca51adfd45a86ed3b4082090e, type: 2}
   m_sharedMaterial: {fileID: 8484387126775878783, guid: e7174e3ca51adfd45a86ed3b4082090e, type: 2}
@@ -1749,7 +1749,7 @@ MonoBehaviour:
   - {fileID: 1903295571}
   additionalPoint: {fileID: 1946904003}
   teleportTime: 5
-  sidePointProbability: 0.1
+  sidePointProbability: 0.3
   additionalPointProbability: 0.01
   sidePointDuration: 3
   additionalPointDuration: 1
@@ -4489,7 +4489,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SOUND EFFECTS
+  m_text: "ZVUKOV\xC9 EFEKTY"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7174e3ca51adfd45a86ed3b4082090e, type: 2}
   m_sharedMaterial: {fileID: 8484387126775878783, guid: e7174e3ca51adfd45a86ed3b4082090e, type: 2}
@@ -4907,7 +4907,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MUSIC
+  m_text: HUDBA
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7174e3ca51adfd45a86ed3b4082090e, type: 2}
   m_sharedMaterial: {fileID: 8484387126775878783, guid: e7174e3ca51adfd45a86ed3b4082090e, type: 2}

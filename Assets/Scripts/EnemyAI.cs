@@ -146,7 +146,6 @@ public class EnemyAI : MonoBehaviour
         {
             m_CurrentWaypointIndex = Random.Range(0, waypoints.Length);
             navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
-            print("lets go další checkpoint je: " + waypoints[m_CurrentWaypointIndex].position);
         }
     }
 

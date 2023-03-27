@@ -16,7 +16,6 @@ public class StealBattery : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             flashlight.GetComponent<FlashlightAdvanced>().batteries -= 1;
-            Debug.Log("YOINK");
             Destroy(gameObject);
         }
     }

@@ -156,17 +156,6 @@ public class FlashlightAdvanced : MonoBehaviour
         }
     }
 
-    Ray CreateRay(float spreadAngle, Vector3 axis)
-    {
-        float distance = 250f;
-        Vector3 noAngle = transform.forward;
-        Quaternion spreadRotation = Quaternion.AngleAxis(spreadAngle, axis);
-        Vector3 spreadDirection = spreadRotation * noAngle;
-        Ray ray = new(transform.position, spreadDirection * distance);
-        return ray;
-    }
-
-
     void RayHit(Ray ray, float range)
     {
         if (Physics.Raycast(ray, out RaycastHit hit, range))
@@ -184,6 +173,43 @@ public class FlashlightAdvanced : MonoBehaviour
         }
     }
 
+    Vector3 GetSpreadDirection(float spreadAngle, Vector3 axis)
+    {
+        Quaternion spreadRotation = Quaternion.AngleAxis(spreadAngle, axis);
+        return spreadRotation * transform.forward;
+    }
+
+    void ShootSpreadRays(float currentRange, float angleStep)
+    {   
+        for (float angle = angleStep; angle <= 25f; angle += angleStep)
+        {
+            Vector3[] rayDirections = new Vector3[]
+            {
+            GetSpreadDirection(angle, fpsCam.transform.right),
+            GetSpreadDirection(-angle, fpsCam.transform.right),
+            GetSpreadDirection(angle, fpsCam.transform.up),
+            GetSpreadDirection(-angle, fpsCam.transform.up),
+            Quaternion.AngleAxis(-angle, fpsCam.transform.up) * GetSpreadDirection(angle, fpsCam.transform.right),
+            Quaternion.AngleAxis(angle, fpsCam.transform.up) * GetSpreadDirection(angle, fpsCam.transform.right),
+            Quaternion.AngleAxis(-angle, fpsCam.transform.up) * GetSpreadDirection(-angle, fpsCam.transform.right),
+            Quaternion.AngleAxis(angle, fpsCam.transform.up) * GetSpreadDirection(-angle, fpsCam.transform.right),
+            Quaternion.AngleAxis(-angle, fpsCam.transform.up) * GetSpreadDirection(angle / 2, fpsCam.transform.right),
+            Quaternion.AngleAxis(-angle / 2, fpsCam.transform.up) * GetSpreadDirection(angle, fpsCam.transform.right),
+            Quaternion.AngleAxis(angle, fpsCam.transform.up) * GetSpreadDirection(angle / 2, fpsCam.transform.right),
+            Quaternion.AngleAxis(angle / 2, fpsCam.transform.up) * GetSpreadDirection(angle, fpsCam.transform.right),
+            Quaternion.AngleAxis(angle, fpsCam.transform.up) * GetSpreadDirection(-angle / 2, fpsCam.transform.right),
+            Quaternion.AngleAxis(angle / 2, fpsCam.transform.up) * GetSpreadDirection(-angle, fpsCam.transform.right),
+            Quaternion.AngleAxis(-angle, fpsCam.transform.up) * GetSpreadDirection(-angle / 2, fpsCam.transform.right),
+            Quaternion.AngleAxis(-angle / 2, fpsCam.transform.up) * GetSpreadDirection(-angle, fpsCam.transform.right)
+            };
+
+            foreach (Vector3 rayDirection in rayDirections)
+            {
+                RayHit(new Ray(fpsCam.transform.position, rayDirection), currentRange);
+            }
+        }
+    }
+
     void Shoot()
     {
         RaycastHit hit;
@@ -197,60 +223,9 @@ public class FlashlightAdvanced : MonoBehaviour
         // center ray
         RayHit(new Ray(fpsCam.transform.position, fpsCam.transform.forward), currentRange);
 
-        float angleStep = 1f; // krok úhlu pro raye
-        for (float angle = angleStep; angle <= 25f; angle += angleStep)
-        {
-            Vector3 upperRayDirection = Quaternion.AngleAxis(angle, fpsCam.transform.right) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, upperRayDirection), currentRange);
-
-            Vector3 lowerRayDirection = Quaternion.AngleAxis(-angle, fpsCam.transform.right) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, lowerRayDirection), currentRange);
-
-            Vector3 leftRayDirection = Quaternion.AngleAxis(angle, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, leftRayDirection), currentRange);
-
-            Vector3 rightRayDirection = Quaternion.AngleAxis(-angle, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, rightRayDirection), currentRange);
-
-            Vector3 upperRightRayDirection = Quaternion.AngleAxis(angle, fpsCam.transform.right) * Quaternion.AngleAxis(-angle, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, upperRightRayDirection), currentRange);
-
-            Vector3 upperLeftRayDirection = Quaternion.AngleAxis(angle, fpsCam.transform.right) * Quaternion.AngleAxis(angle, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, upperLeftRayDirection), currentRange);
-
-            Vector3 lowerRightRayDirection = Quaternion.AngleAxis(-angle, fpsCam.transform.right) * Quaternion.AngleAxis(-angle, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, lowerRightRayDirection), currentRange);
-
-            Vector3 lowerLeftRayDirection = Quaternion.AngleAxis(-angle, fpsCam.transform.right) * Quaternion.AngleAxis(angle, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, lowerLeftRayDirection), currentRange);
-
-            Vector3 lowerLeftLeftRayDirection = Quaternion.AngleAxis(angle / 2, fpsCam.transform.right) * Quaternion.AngleAxis(-angle, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, lowerLeftLeftRayDirection), currentRange);
-
-            Vector3 lowerLowerLeftRayDirection = Quaternion.AngleAxis(angle, fpsCam.transform.right) * Quaternion.AngleAxis(-angle / 2, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, lowerLowerLeftRayDirection), currentRange);
-
-            Vector3 idk1 = Quaternion.AngleAxis(angle / 2, fpsCam.transform.right) * Quaternion.AngleAxis(angle, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, idk1), currentRange);
-
-            Vector3 idk2 = Quaternion.AngleAxis(angle, fpsCam.transform.right) * Quaternion.AngleAxis(angle / 2, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, idk2), currentRange);
-
-            Vector3 idk3 = Quaternion.AngleAxis(-angle / 2, fpsCam.transform.right) * Quaternion.AngleAxis(angle, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, idk3), currentRange);
-
-            Vector3 idk4 = Quaternion.AngleAxis(-angle, fpsCam.transform.right) * Quaternion.AngleAxis(angle / 2, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, idk4), currentRange);
-
-            Vector3 idk5 = Quaternion.AngleAxis(-angle / 2, fpsCam.transform.right) * Quaternion.AngleAxis(-angle, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, idk5), currentRange);
-
-            Vector3 idk6 = Quaternion.AngleAxis(-angle, fpsCam.transform.right) * Quaternion.AngleAxis(-angle / 2, fpsCam.transform.up) * fpsCam.transform.forward;
-            RayHit(new Ray(fpsCam.transform.position, idk6), currentRange);
-
-        }
+        // spread rays
+        float angleStep = 1f;
+        ShootSpreadRays(currentRange, angleStep);
     }
 
-
-
- }
+}
